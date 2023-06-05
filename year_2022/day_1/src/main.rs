@@ -31,8 +31,8 @@ fn main() -> std::io::Result<()> {
     }
 
     println!("Elf carrying most calories have {largest} calories");
-    println!("Elf carrying 2nd most calories have {second_largest} calories");
-    println!("Elf carrying 3rd most calories have {third_largest} calories");
+    // println!("Elf carrying 2nd most calories have {second_largest} calories");
+    // println!("Elf carrying 3rd most calories have {third_largest} calories");
 
     println!(
         "Total calories caried by the Top 3 elves is {} calories",
