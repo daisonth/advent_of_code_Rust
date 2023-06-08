@@ -14,7 +14,7 @@ fn main() -> Result<()> {
     let mut stack: Vec<Vec<char>> = Vec::new();
     (0..nos).for_each(|_| stack.push(Vec::new()));
 
-    let mut c = 0;
+    let mut c: usize = 0;
 
     for line in data.lines() {
         c += 1;
@@ -35,12 +35,9 @@ fn main() -> Result<()> {
 
     for i in stack.iter_mut() {
         i.reverse();
-        println!("{:?}", i);
     }
 
     for line in data.lines().skip(c) {
-        println!("{line}");
-
         let num: Vec<i32> = line
             .split(' ')
             .filter_map(|g| g.parse::<i32>().ok())
@@ -50,26 +47,24 @@ fn main() -> Result<()> {
         let from = num[1] as usize - 1;
         let to = num[2] as usize - 1;
 
+        //part 1
         // (1..=x).for_each(|_| {
         //     let poped = stack[from].pop().unwrap();
         //     stack[to].push(poped);
         // });
 
+        //part 2
         let indx = stack[from].len() - x;
         let mut poped: Vec<char> = stack[from].drain(indx..).collect();
         stack[to].append(&mut poped);
-
-        for i in stack.iter() {
-            println!("{:?}", i);
-        }
     }
 
     let mut top_crates = String::new();
-    for i in stack.iter() {
-        top_crates.push(*i.last().unwrap());
-    }
+    stack
+        .iter()
+        .for_each(|i| top_crates.push(*i.last().unwrap()));
 
-    println!("Top Crates are : {top_crates}");
+    println!("Top Crates are : {}", top_crates);
 
     Ok(())
 }
