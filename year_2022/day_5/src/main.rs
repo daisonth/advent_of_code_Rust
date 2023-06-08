@@ -46,14 +46,18 @@ fn main() -> Result<()> {
             .filter_map(|g| g.parse::<i32>().ok())
             .collect();
 
-        let x = num[0] as usize - 1;
+        let x = num[0] as usize;
         let from = num[1] as usize - 1;
         let to = num[2] as usize - 1;
 
-        (0..=x).for_each(|_| {
-            let poped = stack[from].pop().unwrap();
-            stack[to].push(poped);
-        });
+        // (1..=x).for_each(|_| {
+        //     let poped = stack[from].pop().unwrap();
+        //     stack[to].push(poped);
+        // });
+
+        let indx = stack[from].len() - x;
+        let mut poped: Vec<char> = stack[from].drain(indx..).collect();
+        stack[to].append(&mut poped);
 
         for i in stack.iter() {
             println!("{:?}", i);
