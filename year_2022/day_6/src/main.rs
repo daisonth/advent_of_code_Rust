@@ -11,34 +11,20 @@ fn main() -> Result<()> {
     let mut data = String::new();
     input_file.read_to_string(&mut data)?;
 
-    let mut num_p1: i32 = 0;
+    println!("Part 1 : {}", puzzle_logic(4, data.clone()));
+    println!("Part 2 : {}", puzzle_logic(14, data));
 
-    for window in data.chars().collect::<Vec<char>>().windows(4) {
-        num_p1 += 1;
-        let mut repeat: bool = false;
-        let mut x = 1;
-        for ch in window {
-            for y in x..=3 {
-                if ch.eq(&window[y]) {
-                    repeat = true;
-                }
-            }
-            x += 1;
-        }
-        if !repeat {
-            num_p1 += 3;
-            break;
-        }
-    }
+    Ok(())
+}
 
+fn puzzle_logic(win_size: usize, data: String) -> i32 {
     let mut num_p2: i32 = 0;
-
-    for window in data.chars().collect::<Vec<char>>().windows(14) {
+    for window in data.chars().collect::<Vec<char>>().windows(win_size) {
         num_p2 += 1;
         let mut repeat: bool = false;
         let mut x = 1;
         for ch in window {
-            for y in x..=13 {
+            for y in x..win_size {
                 if ch.eq(&window[y]) {
                     repeat = true;
                 }
@@ -46,13 +32,9 @@ fn main() -> Result<()> {
             x += 1;
         }
         if !repeat {
-            num_p2 += 13;
+            num_p2 = num_p2 + win_size as i32 - 1;
             break;
         }
     }
-
-    println!("Part 1 : {num_p1}");
-    println!("Part 2 : {num_p2}");
-
-    Ok(())
+    num_p2
 }
