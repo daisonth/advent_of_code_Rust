@@ -14,6 +14,21 @@ fn main() -> Result<()> {
     let mut stack: Vec<(&str, i32)> = Vec::new();
     let mut top = 0;
 
+    let mut used_size = 0;
+
+    for line in data.lines() {
+        let words = line.split_whitespace().collect::<Vec<&str>>();
+        match words[0] {
+            "$" | "dir" => {}
+            x => used_size += x.parse::<i32>().unwrap(),
+        }
+    }
+
+    let available_size = 70000000 - used_size;
+    let delete_size = 30000000 - available_size;
+
+    let mut ddir_size: i32 = used_size;
+
     let mut sum: i32 = 0;
 
     for line in data.lines() {
@@ -26,17 +41,20 @@ fn main() -> Result<()> {
                         stack[top - 1].1 += stack[top].1;
                         top -= 1;
                         let poped = stack.pop().unwrap();
+
+                        if poped.1 >= delete_size && poped.1 <= ddir_size {
+                            ddir_size = poped.1;
+                        }
+
                         if poped.1 <= 100000 {
                             sum += poped.1;
                         }
-                        // println!("back to {:?}", poped);
                     }
                     word => {
                         if word.ne("/") {
                             top += 1
                         }
                         stack.push((word, 0));
-                        // println!("{:?} pushed", stack.last().unwrap());
                     }
                 },
                 _ => (),
@@ -47,24 +65,38 @@ fn main() -> Result<()> {
                 stack[len].1 += x.parse::<i32>().unwrap();
             }
         }
-        // print_stack(stack.clone());
     }
 
-    for _ in 1..stack.len() {
-        stack[top - 1].1 += stack[top].1;
-        top -= 1;
+    let mut len = stack.len();
+    loop {
+        if len == 0 {
+            break;
+        }
+
+        if len > 1 {
+            stack[top - 1].1 += stack[top].1;
+            top -= 1;
+        }
+
         let poped = stack.pop().unwrap();
         if poped.1 <= 100000 {
             sum += poped.1;
         }
 
-        // print_stack(stack.clone());
+        if poped.1 >= delete_size && poped.1 <= ddir_size {
+            ddir_size = poped.1;
+        }
+
+        len -= 1;
     }
+
     println!("SUM = {sum}");
+    println!("need to be deleted = {delete_size}");
+    println!("delete file size = {ddir_size}");
 
     Ok(())
 }
-//
+
 // fn print_stack(stack: Vec<(&str, i32)>) {
 //     println!("");
 //     for i in stack.iter() {
