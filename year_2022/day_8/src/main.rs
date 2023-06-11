@@ -28,40 +28,56 @@ fn main() -> Result<()> {
 
     let mut count = (len * 2) + ((wid - 2) * 2);
     let mut g = 0;
+
+    let mut hs = 0;
     for j in 1..len - 1 {
         for k in 1..wid - 1 {
             g += 1;
             let num = matrix[j][k];
+
             let mut t: bool = true;
             let mut b: bool = true;
             let mut r: bool = true;
             let mut l: bool = true;
 
+            let mut st: i32 = 0;
+            let mut sb: i32 = 0;
+            let mut sl: i32 = 0;
+            let mut sr: i32 = 0;
+
             //check to top
-            for x in 0..j {
+            for x in (0..j).rev() {
+                st += 1;
                 if matrix[x][k] >= num {
                     t = false;
+                    break;
                 }
             }
 
             //check to bottom
             for x in j + 1..len {
+                sb += 1;
                 if matrix[x][k] >= num {
                     b = false;
+                    break;
                 }
             }
 
             //check to left
-            for x in 0..k {
+            for x in (0..k).rev() {
+                sl += 1;
                 if matrix[j][x] >= num {
                     l = false;
+                    break;
                 }
             }
 
             //check to right
             for x in k + 1..wid {
+                sr += 1;
                 if matrix[j][x] >= num {
                     r = false;
+                    break;
                 }
                 // println!("{} at {}", num, matrix[j][x]);
             }
@@ -70,10 +86,16 @@ fn main() -> Result<()> {
                 count += 1;
                 // println!("{num} at [{j}][{k}]");
             }
+
+            let temp_s = st * sb * sl * sr;
+            if temp_s > hs {
+                hs = temp_s;
+            }
         }
     }
-    println!("count : {count}");
-    println!("loops : {g}");
+    println!("Part 1 : count = {count}");
+    println!("Part 2 : Highest Scenic Score = {hs}");
+    // println!("loops : {g}");
 
     // for ar in matrix.iter() {
     //     println!("{:?}", ar);
