@@ -23,82 +23,73 @@ fn main() -> Result<()> {
 
     let len = matrix.len();
     let wid = matrix[1].len();
-    println!("length : {len}");
-    println!("width : {wid}\n");
+    // println!("length : {len}");
+    // println!("width : {wid}\n");
 
     let mut count = (len * 2) + ((wid - 2) * 2);
-    let mut g = 0;
+    let mut highest_sc = 0;
 
-    let mut hs = 0;
     for j in 1..len - 1 {
         for k in 1..wid - 1 {
-            g += 1;
             let num = matrix[j][k];
 
-            let mut t: bool = true;
-            let mut b: bool = true;
-            let mut r: bool = true;
-            let mut l: bool = true;
+            let mut visible_top: bool = true;
+            let mut visible_bottom: bool = true;
+            let mut visible_right: bool = true;
+            let mut visible_left: bool = true;
 
-            let mut st: i32 = 0;
-            let mut sb: i32 = 0;
-            let mut sl: i32 = 0;
-            let mut sr: i32 = 0;
+            let mut top_sc: i32 = 0;
+            let mut botton_sc: i32 = 0;
+            let mut left_sc: i32 = 0;
+            let mut right_sc: i32 = 0;
 
             //check to top
             for x in (0..j).rev() {
-                st += 1;
+                top_sc += 1;
                 if matrix[x][k] >= num {
-                    t = false;
+                    visible_top = false;
                     break;
                 }
             }
 
             //check to bottom
             for x in j + 1..len {
-                sb += 1;
+                botton_sc += 1;
                 if matrix[x][k] >= num {
-                    b = false;
+                    visible_bottom = false;
                     break;
                 }
             }
 
             //check to left
             for x in (0..k).rev() {
-                sl += 1;
+                left_sc += 1;
                 if matrix[j][x] >= num {
-                    l = false;
+                    visible_left = false;
                     break;
                 }
             }
 
             //check to right
             for x in k + 1..wid {
-                sr += 1;
+                right_sc += 1;
                 if matrix[j][x] >= num {
-                    r = false;
+                    visible_right = false;
                     break;
                 }
-                // println!("{} at {}", num, matrix[j][x]);
             }
 
-            if r || l || t || b {
+            if visible_right || visible_left || visible_bottom || visible_top {
                 count += 1;
-                // println!("{num} at [{j}][{k}]");
             }
 
-            let temp_s = st * sb * sl * sr;
-            if temp_s > hs {
-                hs = temp_s;
+            let temp_s = top_sc * botton_sc * left_sc * right_sc;
+            if temp_s > highest_sc {
+                highest_sc = temp_s;
             }
         }
     }
     println!("Part 1 : count = {count}");
-    println!("Part 2 : Highest Scenic Score = {hs}");
-    // println!("loops : {g}");
-
-    // for ar in matrix.iter() {
-    //     println!("{:?}", ar);
-    // }
+    println!("Part 2 : Highest Scenic Score = {highest_sc}");
     Ok(())
 }
