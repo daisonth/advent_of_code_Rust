@@ -1,6 +1,10 @@
 // --- Day 9: Rope Bridge ---
 // https://adventofcode.com/2022/day/9
 
+// PART 1
+
+pub mod part2;
+
 use std::{
     cmp,
     fs::File,
@@ -69,11 +73,9 @@ fn main() -> Result<()> {
 
     position.sort();
     position.dedup();
-    println!("Number of positions : {}", position.len());
+    println!("Part 1 : Number of positions : {}", position.len());
 
-    // for i in position.iter() {
-    //     println!("{:?}", i);
-    // }
+    part2::part_2(data);
 
     Ok(())
 }
