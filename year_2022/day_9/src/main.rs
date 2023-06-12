@@ -30,44 +30,19 @@ fn main() -> Result<()> {
         let direction = parts[0];
         let num = parts[1].parse::<i32>().unwrap();
 
-        match direction {
-            "R" => {
-                for _ in 0..num {
-                    if h_is_not_near((h.0, h.1 + 1), t) {
-                        t = h;
-                        position.push(t);
-                    }
-                    h.1 += 1;
-                }
+        for _ in 0..num {
+            let head = h;
+            match direction {
+                "R" => h.1 += 1,
+                "L" => h.1 -= 1,
+                "D" => h.0 += 1,
+                "U" => h.0 -= 1,
+                _ => {}
             }
-            "L" => {
-                for _ in 0..num {
-                    if h_is_not_near((h.0, h.1 - 1), t) {
-                        t = h;
-                        position.push(t);
-                    }
-                    h.1 -= 1;
-                }
+            if h_is_not_near(h, t) {
+                t = head;
+                position.push(t);
             }
-            "D" => {
-                for _ in 0..num {
-                    if h_is_not_near((h.0 + 1, h.1), t) {
-                        t = h;
-                        position.push(t);
-                    }
-                    h.0 += 1;
-                }
-            }
-            "U" => {
-                for _ in 0..num {
-                    if h_is_not_near((h.0 - 1, h.1), t) {
-                        t = h;
-                        position.push(t);
-                    }
-                    h.0 -= 1;
-                }
-            }
-            _ => {}
         }
     }
 

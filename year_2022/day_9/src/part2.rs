@@ -19,77 +19,37 @@ pub fn part_2(data: String) {
         let direction = parts[0];
         let num = parts[1].parse::<i32>().unwrap();
 
-        match direction {
-            "R" => {
-                for _ in 0..num {
-                    for i in 0..9 {
-                        print!("{i}");
-                        if h_is_not_near((knot[i].0, knot[i].1 + 1), knot[i + 1]) {
-                            knot[i + 1] = knot[i];
-                            if i == 8 {
-                                // println!("{:?}", knot[9]);
-                                position.push(knot[9]);
-                            }
-                        }
-                        knot[i].1 += 1;
-                    }
-                    println!("");
-                }
+        for _ in 0..num {
+            for i in knot.iter() {
+                print!("{:?} ", i);
             }
-            "L" => {
-                for _ in 0..num {
-                    for i in 0..9 {
-                        print!("{i}");
-                        if h_is_not_near((knot[i].0, knot[i].1 - 1), knot[i + 1]) {
-                            knot[i + 1] = knot[i];
-                            if i == 8 {
-                                // println!("{:?}", knot[9]);
-                                position.push(knot[9]);
-                            }
-                        }
-                        knot[0].1 -= 1;
-                    }
-                }
+
+            println!("");
+            let mut head: Point<i32> = knot[0];
+            match direction {
+                "R" => head.1 += 1,
+                "L" => head.1 -= 1,
+                "D" => head.0 += 1,
+                "U" => head.0 -= 1,
+                _ => {}
             }
-            "D" => {
-                for _ in 0..num {
-                    for i in 0..9 {
-                        print!("{i}");
-                        if h_is_not_near((knot[i].0 + 1, knot[i].1), knot[i + 1]) {
-                            knot[i + 1] = knot[i];
-                            if i == 8 {
-                                // println!("{:?}", knot[9]);
-                                position.push(knot[9]);
-                            }
-                        }
-                        knot[0].0 += 1;
-                    }
+            for i in (1..=9).rev() {
+                if h_is_not_near(knot[i - 1], knot[i]) {
+                    knot[i] = knot[i - 1];
+                } else {
+                    break;
                 }
+                knot[0] = head;
+                position.push(knot[9]);
             }
-            "U" => {
-                for _ in 0..num {
-                    for i in 0..9 {
-                        print!("{i}");
-                        if h_is_not_near((knot[i].0 - 1, knot[i].1), knot[i + 1]) {
-                            knot[i + 1] = knot[i];
-                            if i == 8 {
-                                // println!("{:?}", knot[9]);
-                                position.push(knot[9]);
-                            }
-                        }
-                        knot[0].0 -= 1;
-                    }
-                }
-            }
-            _ => {}
         }
     }
 
-    // position.sort();
-    // position.dedup();
+    position.sort();
+    position.dedup();
 
     // for i in position.iter() {
-    //     println!("{:?}", i);
+    //     println!("{:?}", i)
     // }
 
     println!("Part 2 : Number of positions : {}", position.len());
