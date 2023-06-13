@@ -14,46 +14,55 @@ pub fn part_2(data: String) {
     let mut position: Vec<Point<i32>> = Vec::new();
     position.push(s);
 
+    let mut n = 1;
+
     for line in data.lines() {
         let parts = line.split_whitespace().collect::<Vec<&str>>();
         let direction = parts[0];
         let num = parts[1].parse::<i32>().unwrap();
 
+        println!("count : {n} {direction}");
+        n += 1;
+
+        let mut w = 1;
         for _ in 0..num {
+            let knot_temp: [Point<i32>; 10] = knot;
+
+            match direction {
+                "R" => knot[0].1 += 1,
+                "L" => knot[0].1 -= 1,
+                "D" => knot[0].0 += 1,
+                "U" => knot[0].0 -= 1,
+                _ => {}
+            }
+
+            for i in 1..=9 {
+                if h_is_not_near(knot[i - 1], knot_temp[i]) {
+                    knot[i] = knot_temp[i - 1];
+                } else {
+                    continue;
+                }
+                if i == 9 {
+                    position.push(knot[9]);
+                }
+            }
+
+            print!("{w} | ");
             for i in knot.iter() {
                 print!("{:?} ", i);
             }
-
             println!("");
-            let mut head: Point<i32> = knot[0];
-            match direction {
-                "R" => head.1 += 1,
-                "L" => head.1 -= 1,
-                "D" => head.0 += 1,
-                "U" => head.0 -= 1,
-                _ => {}
-            }
-            for i in (1..=9).rev() {
-                if h_is_not_near(knot[i - 1], knot[i]) {
-                    knot[i] = knot[i - 1];
-                } else {
-                    break;
-                }
-                knot[0] = head;
-                position.push(knot[9]);
-            }
+            w += 1;
         }
     }
 
     position.sort();
     position.dedup();
 
-    // for i in position.iter() {
-    //     println!("{:?}", i)
-    // }
-
     println!("Part 2 : Number of positions : {}", position.len());
 }
+
+fn next_tail_position() {}
 
 fn h_is_not_near(h: Point<i32>, t: Point<i32>) -> bool {
     if t == h {

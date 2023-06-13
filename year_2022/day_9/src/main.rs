@@ -50,40 +50,64 @@ fn main() -> Result<()> {
     position.dedup();
     println!("Part 1 : Number of positions : {}", position.len());
 
-    part2::part_2(data);
+    // part2::part_2(data);
+
+    let f: i32 = 5;
+    let g: i32 = -3;
+    println!("result : {}", g - f);
+    println!("result : {}", f.abs() - g.abs());
+    println!("result : {}", f.abs_diff(g));
+    println!("result : {}", g.abs_diff(f));
 
     Ok(())
 }
 
-fn h_is_not_near(t: Point<i32>, h: Point<i32>) -> bool {
-    if t == h {
-        return false;
+// fn get_next_tail_position(t: Point<i32>, h: Point<i32>) -> Point<i32> {
+//     let new: Point<i32> = (0, 0);
+//     // let mut dx = h.0 - t.0;
+//     // let mut dy = h.0 - t.0;
+//
+//     new
+// }
+
+fn get_next_tail_position(t: Point<i32>, h: Point<i32>) -> Point<i32> {
+    let dx = h.0 - t.0;
+    let dy = h.1 - t.1;
+
+    if !dx.abs() <= 1 && !dy.abs() <= 1 {
+        return t;
     }
 
-    let mut max;
-    let mut min;
-    let difference;
-
-    if t.0 == h.0 {
-        max = cmp::max(h.1, t.1);
-        min = cmp::min(h.1, t.1);
-        difference = max - min;
-    } else if t.1 == h.1 {
-        max = cmp::max(h.0, t.0);
-        min = cmp::min(h.0, t.0);
-        difference = max - min;
-    } else {
-        max = cmp::max(h.0, t.0);
-        min = cmp::min(h.0, t.0);
-        let d1 = max - min;
-        max = cmp::max(h.1, t.1);
-        min = cmp::min(h.1, t.1);
-        let d2 = max - min;
-        difference = d1 * d2;
+    if dx > 1 {
+        t.0 += 1;
+        if dy >= 1 {
+            t.1 += 1;
+        }
+        if dy <= -1 {}
     }
 
-    match difference {
-        1 => return false,
-        _ => return true,
-    }
+    return t;
 }
+
+// fn h_is_not_near(t: Point<i32>, h: Point<i32>) -> bool {
+//     if t == h {
+//         return false;
+//     }
+//
+//     let difference;
+//
+//     if t.0 == h.0 {
+//         difference = h.1.abs_diff(t.1);
+//     } else if t.1 == h.1 {
+//         difference = h.0.abs_diff(t.0);
+//     } else {
+//         let d1 = h.0.abs_diff(t.0);
+//         let d2 = h.1.abs_diff(t.1);
+//         difference = d1 * d2;
+//     }
+//
+//     match difference {
+//         1 => return false,
+//         _ => return true,
+//     }
+// }
