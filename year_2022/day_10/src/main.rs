@@ -13,25 +13,36 @@ fn main() -> Result<()> {
 
     let mut reg_x: i32 = 1;
     let mut loc: i32 = 20;
-    let mut sum: i32 = 20;
+    let mut sum: i32 = 0;
 
     let mut cycle: i32 = 0;
+
     for line in data.lines() {
         let words = line.split_whitespace().collect::<Vec<&str>>();
         let instruction: &str = words[0];
+        let num: i32;
+        let i: i32;
 
-        cycle += 1;
-        if loc == cycle {
-            sum += reg_x * cycle;
-        }
+        if instruction == "addx" {
+            num = words[1].parse::<i32>().unwrap();
+            i = 2;
+        } else {
+            num = 0;
+            i = 1;
+        };
 
-        if instruction != "noop" {
-            let num: i32 = words[1].parse::<i32>().unwrap();
-
+        for _ in 0..i {
+            if loc == cycle {
+                sum += cycle * reg_x;
+                println!("regx: {reg_x} | sum : {sum} | loc : {loc}");
+                loc += 40;
+            }
             cycle += 1;
-            reg_x *= num;
         }
+        reg_x += num;
     }
+
+    println!("Part 1 : sum = {sum}");
 
     Ok(())
 }
