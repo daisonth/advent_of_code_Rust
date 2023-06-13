@@ -16,9 +16,9 @@ pub fn part_2(data: String) {
     position.push(s);
 
     for line in data.lines() {
-        let parts = line.split_whitespace().collect::<Vec<&str>>();
-        let direction = parts[0];
-        let num = parts[1].parse::<i32>().unwrap();
+        let parts: Vec<&str> = line.split_whitespace().collect::<Vec<&str>>();
+        let direction: &str = parts[0];
+        let num: i32 = parts[1].parse::<i32>().unwrap();
 
         for _ in 0..num {
             match direction {
@@ -31,7 +31,6 @@ pub fn part_2(data: String) {
 
             for i in 1..=9 {
                 knot[i] = get_next_tail_position(knot[i], knot[i - 1]);
-
                 if i == 9 {
                     position.push(knot[9]);
                 }

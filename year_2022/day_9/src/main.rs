@@ -13,8 +13,8 @@ use std::{
 type Point<T> = (T, T);
 
 fn main() -> Result<()> {
-    let mut input_file = File::open("./src/input")?;
-    let mut data = String::new();
+    let mut input_file: File = File::open("./src/input")?;
+    let mut data: String = String::new();
     input_file.read_to_string(&mut data)?;
 
     let s: Point<i32> = (0, 0);
@@ -25,9 +25,9 @@ fn main() -> Result<()> {
     position.push(s);
 
     for line in data.lines() {
-        let parts = line.split_whitespace().collect::<Vec<&str>>();
-        let direction = parts[0];
-        let num = parts[1].parse::<i32>().unwrap();
+        let parts: Vec<&str> = line.split_whitespace().collect::<Vec<&str>>();
+        let direction: &str = parts[0];
+        let num: i32 = parts[1].parse::<i32>().unwrap();
 
         for _ in 0..num {
             match direction {
@@ -53,8 +53,8 @@ fn main() -> Result<()> {
 }
 
 fn get_next_tail_position(mut t: Point<i32>, h: Point<i32>) -> (i32, i32) {
-    let dx = h.0 - t.0;
-    let dy = h.1 - t.1;
+    let dx: i32 = h.0 - t.0;
+    let dy: i32 = h.1 - t.1;
 
     if dx.abs() <= 1 && dy.abs() <= 1 {
         return t;
