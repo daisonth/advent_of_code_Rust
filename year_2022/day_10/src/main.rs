@@ -1,6 +1,10 @@
 // --- Day 10: Cathode-Ray Tube ---
 // https://adventofcode.com/2022/day/10
 
+// Part 1
+
+mod part2;
+
 use std::{
     fs::File,
     io::{Read, Result},
@@ -21,18 +25,18 @@ fn main() -> Result<()> {
         let words = line.split_whitespace().collect::<Vec<&str>>();
         let instruction: &str = words[0];
 
-        let num: i32;
-        let i: i32;
+        let value: i32;
+        let cycles: i32;
 
         if instruction == "addx" {
-            num = words[1].parse::<i32>().unwrap();
-            i = 2;
+            value = words[1].parse::<i32>().unwrap();
+            cycles = 2;
         } else {
-            num = 0;
-            i = 1;
+            value = 0;
+            cycles = 1;
         };
 
-        for _ in 0..i {
+        for _ in 0..cycles {
             cycle += 1;
 
             if loc == cycle {
@@ -40,7 +44,7 @@ fn main() -> Result<()> {
                 loc += 40;
             }
         }
-        reg_x += num;
+        reg_x += value;
 
         if cycle >= 240 {
             break;
@@ -48,6 +52,7 @@ fn main() -> Result<()> {
     }
 
     println!("Part 1 : sum = {sum}");
+    part2::part_2(data);
 
     Ok(())
 }
