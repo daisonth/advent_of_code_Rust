@@ -5,6 +5,7 @@ use std::{
     fs::File,
     io::{Read, Result},
 };
+
 fn main() -> Result<()> {
     let mut input_file: File = File::open("./src/input")?;
     let mut data: String = String::new();
@@ -33,15 +34,15 @@ fn main() -> Result<()> {
 
         for _ in 0..i {
             cycle += 1;
+
             if loc == cycle {
                 sum += cycle * reg_x;
-                // println!("regx: {reg_x} | loc : {cycle} | val : {}", cycle * reg_x);
                 loc += 40;
             }
         }
         reg_x += num;
 
-        if cycle >= 220 {
+        if cycle >= 240 {
             break;
         }
     }
