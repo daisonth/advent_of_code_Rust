@@ -5,7 +5,6 @@ use std::{
     fs::File,
     io::{Read, Result},
 };
-
 fn main() -> Result<()> {
     let mut input_file: File = File::open("./src/input")?;
     let mut data: String = String::new();
@@ -20,6 +19,7 @@ fn main() -> Result<()> {
     for line in data.lines() {
         let words = line.split_whitespace().collect::<Vec<&str>>();
         let instruction: &str = words[0];
+
         let num: i32;
         let i: i32;
 
@@ -32,14 +32,18 @@ fn main() -> Result<()> {
         };
 
         for _ in 0..i {
+            cycle += 1;
             if loc == cycle {
                 sum += cycle * reg_x;
-                println!("regx: {reg_x} | sum : {sum} | loc : {loc}");
+                // println!("regx: {reg_x} | loc : {cycle} | val : {}", cycle * reg_x);
                 loc += 40;
             }
-            cycle += 1;
         }
         reg_x += num;
+
+        if cycle >= 220 {
+            break;
+        }
     }
 
     println!("Part 1 : sum = {sum}");
