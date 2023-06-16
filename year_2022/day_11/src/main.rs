@@ -27,7 +27,8 @@ fn main() -> Result<()> {
         monkeys.push(get_each_monkey_data(para));
     }
 
-    for r in 0..20 {
+    for _ in 0..20 {
+        // println!("for round: {}\n===============================", r + 1);
         for n in 0..monkeys.len() {
             for _ in 0..monkeys[n].items.len() {
                 let item = monkeys[n].items.pop().unwrap();
@@ -47,34 +48,40 @@ fn main() -> Result<()> {
                 // println!("operand : {operand}");
 
                 worry_level /= 3;
-                println!("worry_level : {worry_level}");
+                // println!("worry_level : {worry_level}");
 
                 let val = worry_level % monkeys[n].divisible;
 
                 let if_true = monkeys[n].if_true as usize;
                 let if_false = monkeys[n].if_false as usize;
-                match val != 0 {
+                match val == 0 {
                     true => monkeys[if_true].items.insert(0, worry_level),
                     false => monkeys[if_false].items.insert(0, worry_level),
                 }
                 monkeys[n].inspection_count += 1;
             }
+            // println!();
         }
 
-        println!("for round: {}", r + 1);
-        for n in 0..monkeys.len() {
-            print!("monkey {n}:");
-            for m in monkeys[n].items.iter() {
-                print!(" {m}");
-            }
-            println!("");
-        }
-        println!("");
+        // println!("for round: {}", r + 1);
+        // for n in 0..monkeys.len() {
+        //     print!("monkey {n}:");
+        //     for m in monkeys[n].items.iter() {
+        //         print!(" {m}");
+        //     }
+        //     println!("");
+        // }
+        // println!("");
     }
 
+    let mut v: Vec<i32> = Vec::new();
     for m in monkeys.iter() {
-        println!("{}", m.inspection_count);
+        v.push(m.inspection_count);
     }
+
+    v.sort();
+    v.reverse();
+    println!("Part 1 : level of Monkey business = {}", v[0] * v[1]);
 
     Ok(())
 }
@@ -86,7 +93,7 @@ fn get_each_monkey_data(para: &str) -> Monkey {
 
     for l in para.lines().nth(1).unwrap().split_whitespace() {
         if l.chars().nth(0).unwrap().is_numeric() {
-            items.push(l.split(',').nth(0).unwrap().parse::<i32>().unwrap());
+            items.insert(0, l.split(',').nth(0).unwrap().parse::<i32>().unwrap());
         }
     }
 
@@ -129,6 +136,7 @@ fn get_each_monkey_data(para: &str) -> Monkey {
         .unwrap()
         .parse::<i32>()
         .unwrap();
+    // println!("{divisible}");
 
     let if_true = para
         .lines()
@@ -149,6 +157,8 @@ fn get_each_monkey_data(para: &str) -> Monkey {
         .unwrap()
         .parse::<i32>()
         .unwrap();
+
+    // println!("{if_true} , {if_false}");
 
     Monkey {
         items,
