@@ -1,37 +1,7 @@
-// --- Day 11: Monkey in the Middle ---
-// https://adventofcode.com/2022/day/11
+use crate::Monkey;
 
-mod functions;
-mod part2;
-
-use std::{
-    fs::File,
-    io::{Read, Result},
-};
-
-pub struct Monkey {
-    items: Vec<i64>,
-    inspection_count: i64,
-    operation: char,
-    operand: String,
-    divisible: i64,
-    if_true: i64,
-    if_false: i64,
-}
-
-fn main() -> Result<()> {
-    let mut input_file = File::open("./src/input")?;
-    let mut data = String::new();
-    input_file.read_to_string(&mut data)?;
-
-    let mut monkeys: Vec<Monkey> = Vec::new();
-
-    for para in data.split("\n\n").collect::<Vec<&str>>().iter() {
-        monkeys.push(functions::get_each_monkey_data(para));
-    }
-
-    part2::part_2(monkeys);
-
+pub fn part_2(monk: Vec<Monkey>) {
+    let mut monkeys: Vec<Monkey> = monk;
     let mut the_mod = 1;
     for monkey in monkeys.iter() {
         the_mod *= monkey.divisible;
@@ -82,6 +52,4 @@ fn main() -> Result<()> {
         "Part 1 : level of Monkey business = {}",
         inspect_counts[0] * inspect_counts[1]
     );
-
-    Ok(())
 }
