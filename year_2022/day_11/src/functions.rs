@@ -1,6 +1,6 @@
 use crate::Monkey;
+
 pub fn get_each_monkey_data(para: &str) -> Monkey {
-    // println!("{para}");
     let mut items: Vec<i64> = Vec::new();
     let inspection_count = 0;
 
@@ -24,8 +24,6 @@ pub fn get_each_monkey_data(para: &str) -> Monkey {
         .nth(0)
         .unwrap();
 
-    // println!("{operation}");
-
     let operand = para
         .lines()
         .nth(2)
@@ -38,8 +36,6 @@ pub fn get_each_monkey_data(para: &str) -> Monkey {
         .unwrap()
         .to_string();
 
-    // println!("{operand}");
-
     let divisible = para
         .lines()
         .nth(3)
@@ -49,7 +45,6 @@ pub fn get_each_monkey_data(para: &str) -> Monkey {
         .unwrap()
         .parse::<i64>()
         .unwrap();
-    // println!("{divisible}");
 
     let if_true = para
         .lines()
@@ -70,8 +65,6 @@ pub fn get_each_monkey_data(para: &str) -> Monkey {
         .unwrap()
         .parse::<i64>()
         .unwrap();
-
-    // println!("{if_true} , {if_false}");
 
     Monkey {
         items,

@@ -1,12 +1,7 @@
 use crate::Monkey;
 
-pub fn part_2(mut monkeys: Vec<Monkey>) -> i64 {
-    let mut the_mod = 1;
-    for monkey in monkeys.iter() {
-        the_mod *= monkey.divisible;
-    }
-
-    for _ in 0..10000 {
+pub fn part_1(mut monkeys: Vec<Monkey>) -> i64 {
+    for _ in 0..20 {
         for n in 0..monkeys.len() {
             for _ in 0..monkeys[n].items.len() {
                 let item: i64 = monkeys[n].items.pop().unwrap();
@@ -24,7 +19,7 @@ pub fn part_2(mut monkeys: Vec<Monkey>) -> i64 {
                     _ => (),
                 }
 
-                worry_level = worry_level % the_mod;
+                worry_level = worry_level / 3;
 
                 let val = worry_level % monkeys[n].divisible;
 
