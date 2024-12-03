@@ -55,8 +55,8 @@ fn main() -> Result<()> {
         sum2 += v * count;
     }
 
-    println!("sum : {sum}");
-    println!("sum2 : {sum2}");
+    println!("part 1 : {sum}");
+    println!("part 2 : {sum2}");
 
     Ok(())
 }
